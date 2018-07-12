@@ -1,5 +1,5 @@
 // read dotenv
-let r = require('dotenv').config()
+let r = require('dotenv').config();
 
 // setup logger
 const logger = require('./logger.js');
@@ -7,9 +7,11 @@ const logger = require('./logger.js');
 // handle dotenv error
 if (r.error) {
   logger.error(r.error);
-  throw r.error;
+  // throw r.error;
+  logger.info('could not parse dotenv');
 }
-logger.info('parsed dotenv succesfully');
+else
+  logger.info('parsed dotenv succesfully');
 
 // app requires
 var passport = require('passport');

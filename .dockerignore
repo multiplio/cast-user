@@ -1,0 +1,13 @@
+node_modules
+
+.git
+.gitignore
+.dockerignore
+.env
+
+combined.log
+error.log
+yarn-error.log
+
+*.vim
+*.un~

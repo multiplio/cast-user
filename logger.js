@@ -6,13 +6,13 @@ const logFormat = printf(info => {
 });
 
 const logger = createLogger({
-  level: 'info',
+  level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
   format: combine(
     timestamp(),
     logFormat
   ),
   transports: [
-    new transports.Console({ format: logFormat })
+    new transports.Console()
   ]
 });
 

@@ -15,6 +15,6 @@ RUN yarn install --production --frozen-lockfile
 COPY . .
 
 # Start
-EXPOSE 3000
+EXPOSE 7000
 USER node
-ENTRYPOINT [ "npm", "start" ]
+ENTRYPOINT [ "yarn", "start" ]

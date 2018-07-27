@@ -14,6 +14,7 @@ const init = new Promise(function (resolve, reject) {
         twitterId: String,
         twitterAccessLevel: String
       });
+
       userSchema.statics.findOrCreate = function(user, cb) {
         return this.model('User').findOneAndUpdate(
           {twitterId: user.twitterId},
@@ -22,8 +23,8 @@ const init = new Promise(function (resolve, reject) {
           cb
         );
       };
-      const User = mongoose.model('User', userSchema);
 
+      const User = mongoose.model('User', userSchema);
       resolve(User);
     })
     .catch(function(error) {

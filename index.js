@@ -7,7 +7,6 @@ const logger = require('./logger.js');
 // handle dotenv error
 if (r.error) {
   logger.error(r.error);
-  // throw r.error;
   logger.info('could not parse dotenv');
 }
 else

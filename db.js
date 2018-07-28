@@ -1,43 +1,31 @@
 const logger = require('./logger.js');
 const mongoose = require('mongoose');
 
-const url = `mongodb://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_ADDRESS}/${process.env.DATABASE_NAME}`;
+module.exports = function (url, name) {
+  const options = {
+    reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
+    reconnectInterval: 500, // Reconnect every 500ms
+    poolSize: 10, // Maintain up to 10 socket connections
+    connectTimeoutMS: 10000, // Give up initial connection after 10 seconds
+    socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+    family: 4 // Use IPv4, skip trying IPv6
+  };
 
-const connect = new Promise(function(resolve, reject) {
-  mongoose.connect(url);
-  const db = mongoose.connection;
+  const conn = mongoose.createConnection(url, options);
 
-  let resolved = false;
-
-  // On connection error
-  db.on('error', function(error) {
-    if(!resolved) {
-      resolved = true;
-      reject(error);
-    }
-  });
-
-  // When the connection is disconnected
-  mongoose.connection.on('disconnected', function () {
-    logger.info(`database ${process.env.DATABASE_NAME} disconnected`);
-  });
+  conn.on('error', function (err) {
+    logger.error(err);
+    process.exit(0);
+  })
 
   // If the Node process ends, close the Mongoose connection
   process.on('SIGINT', function() {
-    mongoose.connection.close(function () {
-      logger.info(`${process.env.DATABASE_NAME} connection disconnected through app termination`);
+    conn.close(function () {
+      logger.info(`db ${name} disconnected through app termination`);
       process.exit(0);
     });
   });
 
-  // When the connection is opened
-  db.once('open', function() {
-    // we're connected!
-    if(!resolved) {
-      logger.info(`database ${process.env.DATABASE_NAME} connected`);
-      resolved = true;
-      resolve(db);
-    }
-  });
-});
-module.exports = connect;
+  logger.info(`created connection to db ${name}`);
+  return conn;
+};

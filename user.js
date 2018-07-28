@@ -1,34 +1,39 @@
 const logger = require('./logger.js');
 const mongoose = require('mongoose');
+const database = require('./db.js');
 
-const init = new Promise(function (resolve, reject) {
-  require('./db.js')
-    .then(function(db) {
-      //schema
-      const userSchema = mongoose.Schema({
-        displayName: String,
-        profileImageUrl: String,
+const url = `mongodb://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_ADDRESS}/${process.env.DATABASE_NAME}`;
 
-        joinedDate: { type: Date, default: Date.now },
+module.exports = function () {
+    //schema
+    const userSchema = mongoose.Schema({
+      displayName: String,
+      profileImageUrl: String,
 
-        twitterId: String,
-        twitterAccessLevel: String
-      });
+      joinedDate: { type: Date, default: Date.now },
 
-      userSchema.statics.findOrCreate = function(user, cb) {
-        return this.model('User').findOneAndUpdate(
-          {twitterId: user.twitterId},
-          user,
-          {new: true, upsert: true, setDefaultsOnInsert: true},
-          cb
-        );
-      };
-
-      const User = mongoose.model('User', userSchema);
-      resolve(User);
-    })
-    .catch(function(error) {
-      reject(error);
+      twitterId: String,
+      twitterAccessLevel: String
     });
-});
-module.exports = init;
+
+    userSchema.statics.findOrCreate = function(user, cb) {
+      return this.model('User').findOneAndUpdate(
+        {
+          twitterId: user.twitterId
+        },
+        user,
+        {
+          new: true,
+          upsert: true,
+          setDefaultsOnInsert: true
+        },
+        cb
+      );
+    };
+
+    mongoose.model('User', userSchema);
+    logger.debug('user schema created');
+
+    const conn = database(url, process.env.DATABASE_NAME);
+    return conn.model('User');
+};

@@ -39,26 +39,27 @@ app.use(require('express-session')(
 ));
 
 // setup users database
-let User = users();
+users()
+  .then(User => {
+    // setup twitter auth
+    twitter(app, User);
 
-// setup twitter auth
-twitter(app, User);
+    // DEBUG routes
+    if (process.env.NODE_ENV !== 'production') {
+      app.get(
+        '/login',
+        function(req, res) {
+          res.send('login')
+        });
+      app.get(
+        '/',
+        function(req, res) {
+          res.send(req.user);
+        });
+      logger.debug('setup debug routes');
+    }
 
-// DEBUG routes
-if (process.env.NODE_ENV !== 'production') {
-  app.get(
-    '/login',
-    function(req, res) {
-      res.send('login')
-    });
-  app.get(
-    '/',
-    function(req, res) {
-      res.send(req.user);
-    });
-  logger.debug('setup debug routes');
-}
-
-// start server
-app.listen(process.env.PORT);
-logger.info(`listening at localhost:${process.env.PORT}`);
+    // start server
+    app.listen(process.env.PORT);
+    logger.info(`listening at localhost:${process.env.PORT}`);
+  });

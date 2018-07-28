@@ -11,21 +11,28 @@ module.exports = function (url, name) {
     family: 4 // Use IPv4, skip trying IPv6
   };
 
-  const conn = mongoose.createConnection(url, options);
+  return new Promise(function (resolve, reject) {
+    (function init () {
+      const conn = mongoose.createConnection(url, options);
 
-  conn.on('error', function (err) {
-    logger.error(err);
-    process.exit(0);
-  })
+      conn.on('error', function (err) {
+        logger.error(err);
+        // retry
+        setTimeout(init, 2000);
+      });
 
-  // If the Node process ends, close the Mongoose connection
-  process.on('SIGINT', function() {
-    conn.close(function () {
-      logger.info(`db ${name} disconnected through app termination`);
-      process.exit(0);
-    });
+      conn.once('open', function () {
+        logger.info(`created connection to db ${name}`);
+        resolve(conn);
+      });
+
+      // If the Node process ends, close the Mongoose connection
+      process.on('SIGINT', function() {
+        conn.close(function () {
+          logger.info(`db ${name} disconnected through app termination`);
+          process.exit(0);
+        });
+      });
+    })();
   });
-
-  logger.info(`created connection to db ${name}`);
-  return conn;
 };

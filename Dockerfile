@@ -6,6 +6,9 @@ RUN curl -o- -L https://yarnpkg.com/install.sh | bash
 # Create app directory
 WORKDIR /usr/src/app
 
+# Install pm2
+RUN yarn global add pm2
+
 # Install app dependencies
 COPY package.json yarn.lock ./
 
@@ -17,4 +20,4 @@ COPY . .
 # Start
 EXPOSE 7000
 USER node
-ENTRYPOINT [ "yarn", "start" ]
+ENTRYPOINT [ "pm2-docker", "index.js" ]

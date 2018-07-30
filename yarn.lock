@@ -97,6 +97,12 @@ colorspace@1.0.x:
     color "0.8.x"
     text-hex "0.0.x"
 
+connect-mongodb-session@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/connect-mongodb-session/-/connect-mongodb-session-2.0.3.tgz#af8ac4e30b684794f93d6909237cec2f80081f44"
+  dependencies:
+    mongodb "~3.0.4"
+
 content-disposition@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/content-disposition/-/content-disposition-0.5.2.tgz#0cf68bb9ddf5f2be7961c3a85178cb85dba78cb4"
@@ -359,6 +365,13 @@ mime@1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.4.1.tgz#121f9ebc49e3766f311a76e1fa1c8003c4b03aa6"
 
+mongodb-core@3.0.11:
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-3.0.11.tgz#737c496119aebbf3548d3fc7553266e56c826c77"
+  dependencies:
+    bson "~1.0.4"
+    require_optional "^1.0.1"
+
 mongodb-core@3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-3.1.0.tgz#af91f36fd560ed785f4e61e694432df4d3698aad"
@@ -373,6 +386,12 @@ mongodb@3.1.1:
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.1.1.tgz#c018c4b277614e8b1e08426d5bcbe1a7e5cdbd74"
   dependencies:
     mongodb-core "3.1.0"
+
+mongodb@~3.0.4:
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.0.11.tgz#f09163b8928e8eb2fc0240b5a0e557e806947954"
+  dependencies:
+    mongodb-core "3.0.11"
 
 mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"

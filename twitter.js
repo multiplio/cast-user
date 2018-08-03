@@ -1,5 +1,6 @@
 const logger = require('./logger.js');
-const util = require('util');
+
+const emailer = require('./email.js');
 
 const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
@@ -26,16 +27,30 @@ const setup = function(app, User) {
       callbackURL: process.env.TWITTER_CALLBACK_URL
     },
       function(token, tokenSecret, profile, cb) {
-        logger.log('debug', `authenticating: ${profile.id}`);
+        logger.debug(`authenticating: ${profile.id}`);
 
-        var user = {
+        const user = {
           displayName: profile.displayName,
           profileImageUrl: profile._json.profile_image_url_https,
           twitterId: profile.id,
           twitterAccessLevel: profile._accessLevel
         };
-        User.findOrCreate(user, function (err, user) {
-          return cb(err, user);
+        User.findOne({"twitterId" : profile.id}).exec(function (err, res) {
+          if(err)
+            return cb(err, nil);
+          else {
+            if(!res) {
+              //new user
+              emailer('toman.martin@live.com', profile.displayName)
+                .then(() => logger.debug('sent onboarding email'))
+                .catch(err => logger.error(`emailer error : ${err}`));
+            }
+
+            User.findOrCreate(user, function (err, user) {
+              logger.info('created or updated a user');
+              return cb(err, user);
+            });
+          }
         });
       }
     ));

@@ -1,8 +1,24 @@
-.PHONY: build
-build:
-	docker image build -t quackup/login:1.0.0 .
+repo=quackup
+name=login
+version=1.0.0
 
-.PHONY: run
+.PHONY:build
+build:
+	docker image build \
+		-t ${repo}/${name}:${version} .
+
+.PHONY:run
 run:
-	docker container run --rm -p 7000:7000 --env-file .env \
-		-t quackup/login:1.0.0
+	docker container run \
+		--rm \
+		--name ${repo}-${name}-dev \
+		--env-file .env \
+		-p 7000:7000 \
+		-t ${repo}/${name}:${version}
+
+.PHONY:kill
+kill:
+	docker rm $$( \
+	docker kill $$( \
+	docker ps -aq \
+	--filter="name=${repo}-${name}-dev" ))

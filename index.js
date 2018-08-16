@@ -69,6 +69,14 @@ require('./sessstore.js')(session)
           logger.info('setup debug routes');
         }
 
+        // get identity
+        app.get(
+          '/identity',
+          function(req, res) {
+            res.send(req.user)
+          }
+        )
+
         // start server
         app.listen(process.env.PORT);
         logger.info(`listening at localhost:${process.env.PORT}`);

@@ -6,7 +6,7 @@ const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
 
 // setup auth handling
-const setup = function(app, User) {
+module.exports = function(app, User) {
   // Configure Passport authenticated session persistence.
   passport.serializeUser(
     function(user, cb) {
@@ -78,5 +78,4 @@ const setup = function(app, User) {
     });
 
   logger.info('setup twitter passport routes');
-}
-module.exports = setup;
+};

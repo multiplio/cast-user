@@ -28,9 +28,11 @@ module.exports = function(app, User) {
     },
       function(token, tokenSecret, profile, cb) {
         logger.debug(`authenticating: ${profile.id}`);
+        logger.debug(`user profile: ${profile}`);
 
         const user = {
           displayName: profile.displayName,
+          primaryEmail: "martin@tekwrks.com",
           profileImageUrl: profile._json.profile_image_url_https,
           twitterId: profile.id,
           twitterAccessLevel: profile._accessLevel
@@ -41,7 +43,7 @@ module.exports = function(app, User) {
           else {
             if(!res) {
               //new user
-              emailer('toman.martin@live.com', profile.displayName)
+              emailer('martin@tekwrks.com', profile.displayName)
                 .then(() => logger.debug('sent onboarding email'))
                 .catch(err => logger.error(`emailer error : ${err}`));
             }
@@ -73,7 +75,7 @@ module.exports = function(app, User) {
     ),
     function(req, res) {
       // Successful authentication, redirect home.
-      logger.debug(`succesful authentication for: ${req.user.displayName}`)
+      logger.debug(`succesful authentication for: ${req.user.displayName}`);
       res.redirect('/');
     });
 

@@ -8,6 +8,7 @@ module.exports = () => new Promise(function (resolve, reject) {
   //schema
   let userSchema = mongoose.Schema({
     displayName: String,
+    primaryEmail: String,
     profileImageUrl: String,
 
     joinedDate: { type: Date, default: Date.now },

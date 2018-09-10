@@ -24,26 +24,32 @@ module.exports = function(app, User) {
     new TwitterStrategy({
       consumerKey: process.env.TWITTER_CONSUMER_KEY,
       consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-      callbackURL: process.env.TWITTER_CALLBACK_URL
+      userProfileURL: "https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true",
+      callbackURL: process.env.TWITTER_CALLBACK_URL,
     },
       function(token, tokenSecret, profile, cb) {
         logger.debug(`authenticating: ${profile.id}`);
-        logger.debug(`user profile: ${profile}`);
+
+        //get user email if exists
+        let email = null;
+        if (profile.emails && profile.emails.length > 0) {
+          email = profile.emails[0].value;
+        }
 
         const user = {
           displayName: profile.displayName,
-          primaryEmail: "martin@tekwrks.com",
+          primaryEmail: email,
           profileImageUrl: profile._json.profile_image_url_https,
           twitterId: profile.id,
           twitterAccessLevel: profile._accessLevel
         };
         User.findOne({"twitterId" : profile.id}).exec(function (err, res) {
           if(err)
-            return cb(err, nil);
+            return cb(err, null);
           else {
-            if(!res) {
+            if(!res && email) {
               //new user
-              emailer('martin@tekwrks.com', profile.displayName)
+              emailer(email, profile.displayName)
                 .then(() => logger.debug('sent onboarding email'))
                 .catch(err => logger.error(`emailer error : ${err}`));
             }

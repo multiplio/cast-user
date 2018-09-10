@@ -59,7 +59,7 @@ require('./sessstore.js')(session)
           app.get(
             '/login',
             function(req, res) {
-              res.send('login')
+              res.send('login');
             });
           app.get(
             '/',
@@ -73,9 +73,9 @@ require('./sessstore.js')(session)
         app.get(
           '/identity',
           function(req, res) {
-            res.send(req.user)
+            res.send(req.user);
           }
-        )
+        );
 
         // start server
         app.listen(process.env.PORT);

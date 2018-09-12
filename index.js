@@ -54,26 +54,17 @@ require('./sessstore.js')(session)
         // setup twitter auth
         twitter(app, User);
 
-        // DEBUG routes
-        if (process.env.EXPANDED_ROUTES) {
-          app.get(
-            '/login',
-            function(req, res) {
-              res.send('login');
-            });
-          app.get(
-            '/',
-            function(req, res) {
-              res.send(req.user);
-            });
-          logger.info('setup debug routes');
-        }
-
         // get identity
         app.get(
           '/identity',
           function(req, res) {
-            res.send(req.user);
+            const user = req.user;
+            res.send(
+              {
+                displayName: user.displayName,
+                profileImageUrl: user.profileImageUrl,
+              }
+            );
           }
         );
 

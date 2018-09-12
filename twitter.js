@@ -36,6 +36,7 @@ module.exports = function(app, User) {
           email = profile.emails[0].value;
         }
 
+        //create user and save to db
         const user = {
           displayName: profile.displayName,
           primaryEmail: email,
@@ -44,11 +45,12 @@ module.exports = function(app, User) {
           twitterAccessLevel: profile._accessLevel
         };
         User.findOne({"twitterId" : profile.id}).exec(function (err, res) {
-          if(err)
+          if(err) {
             return cb(err, null);
+          }
           else {
             if(!res && email) {
-              //new user
+              //new user - send onboarding
               emailer(email, profile.displayName)
                 .then(() => logger.debug('sent onboarding email'))
                 .catch(err => logger.error(`emailer error : ${err}`));

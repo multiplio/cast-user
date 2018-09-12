@@ -22,8 +22,11 @@ const twitter = require('./twitter.js');
 const users = require('./user.js');
 
 const express = require('express');
+const helmet = require('helmet');
 const app = express();
 const session = require('express-session');
+
+app.use(helmet());
 
 app.use(require('body-parser').urlencoded(
   {

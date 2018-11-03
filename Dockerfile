@@ -1,7 +1,7 @@
-FROM node:8
+FROM node:8-alpine
 
 # Install yarn
-RUN curl -o- -L https://yarnpkg.com/install.sh | bash
+RUN npm install --global yarn
 
 # Create app directory
 WORKDIR /usr/src/app

@@ -1,21 +1,6 @@
-if (process.env.NODE_ENV !== 'production') {
-  // read dotenv
-  var ret = require('dotenv').config();
-}
-
 // setup logger
 const logger = require('./logger.js');
 logger.info('starting up');
-
-if (process.env.NODE_ENV !== 'production') {
-  // handle dotenv error
-  if (ret.error) {
-    logger.error(ret.error);
-    logger.info('could not parse dotenv');
-  }
-  else
-    logger.info('parsed dotenv succesfully');
-}
 
 // app requires
 const twitter = require('./twitter.js');

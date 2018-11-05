@@ -1,6 +1,5 @@
-const logger = require('./logger.js');
-
-const emailer = require('./email.js');
+const logger = require('./logger');
+const emailer = require('./email');
 
 const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;

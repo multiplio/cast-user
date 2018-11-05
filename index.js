@@ -1,17 +1,14 @@
-// setup logger
-const logger = require('./logger.js');
+const logger = require('./logger');
+
 logger.info('starting up');
 
 // app requires
-const twitter = require('./twitter.js');
-const users = require('./user.js');
+const users = require('./user');
 
-const express = require('express');
-const helmet = require('helmet');
-const app = express();
+const app = require('express')();
 const session = require('express-session');
 
-app.use(helmet());
+app.use(require('helmet')());
 
 app.use(require('body-parser').urlencoded(
   {
@@ -20,7 +17,7 @@ app.use(require('body-parser').urlencoded(
 ));
 
 // setup session store
-require('./sessstore.js')(session)
+require('./sessstore')(session)
   .then(store => {
     // use the store
     app.use(session(
@@ -40,21 +37,7 @@ require('./sessstore.js')(session)
     users()
       .then(User => {
         // setup twitter auth
-        twitter(app, User);
-
-        // get identity
-        app.get(
-          '/identity',
-          function(req, res) {
-            const user = req.user;
-            res.send(
-              {
-                displayName: user.displayName,
-                profileImageUrl: user.profileImageUrl,
-              }
-            );
-          }
-        );
+        require('./twitter')(app, User);
 
         // start server
         app.listen(process.env.PORT);

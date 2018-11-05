@@ -1,5 +1,5 @@
+const logger = require('./logger');
 const StoreIniter = require('connect-mongodb-session');
-const logger = require('./logger.js');
 
 const uri = `mongodb://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_ADDRESS}/${process.env.DATABASE_NAME}`;
 

@@ -1,20 +1,20 @@
-const logger = require('./logger');
+const logger = require('./logger')
 
-logger.info('starting up');
+logger.info('starting up')
 
 // app requires
-const users = require('./user');
+const users = require('./user')
 
-const app = require('express')();
-const session = require('express-session');
+const app = require('express')()
+const session = require('express-session')
 
-app.use(require('helmet')());
+app.use(require('helmet')())
 
 app.use(require('body-parser').urlencoded(
   {
     extended: true
   }
-));
+))
 
 // setup session store
 require('./sessstore')(session)
@@ -31,7 +31,7 @@ require('./sessstore')(session)
           maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
         }
       }
-    ));
+    ))
 
     // setup users database
     users()
@@ -42,5 +42,5 @@ require('./sessstore')(session)
         // start server
         app.listen(process.env.PORT);
         logger.info(`listening at localhost:${process.env.PORT}`);
-      });
-  });
+      })
+  })

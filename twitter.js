@@ -78,7 +78,9 @@ module.exports = function(app, User) {
     '/auth/twitter/callback',
     passport.authenticate(
       'twitter',
-      { failureRedirect: '/login' }
+      {
+        failureRedirect: '/login'
+      }
     ),
     function(req, res) {
       // Successful authentication, redirect home.
@@ -87,4 +89,13 @@ module.exports = function(app, User) {
     })
 
   logger.info('setup twitter passport routes')
+
+  app.get(
+    '/logout',
+    function(req, res) {
+      req.logout()
+      res.redirect('/')
+    })
+
+  logger.info('setup logout route')
 }

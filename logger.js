@@ -1,5 +1,5 @@
 const { createLogger, format, transports } = require('winston')
-const { combine, timestamp, label, printf } = format
+const { combine, timestamp, printf } = format
 
 const logFormat = printf(info =>
   `${process.env.PROGRAM_ALIAS || ''}:${info.timestamp}:${info.level}: ${info.message}`
@@ -12,8 +12,8 @@ const logger = createLogger({
     logFormat
   ),
   transports: [
-    new transports.Console()
-  ]
+    new transports.Console(),
+  ],
 })
 
 if (process.env.LOG_FILE === 'true') {
@@ -28,3 +28,4 @@ if (process.env.LOG_FILE === 'true') {
 }
 
 module.exports = logger
+

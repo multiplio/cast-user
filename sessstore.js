@@ -10,19 +10,20 @@ module.exports = function (session) {
 
       let store = new MongoDBStore({
         uri: uri,
-        collection: 'sessions'
+        collection: 'sessions',
       })
 
-      store.on('connected', function() {
+      store.on('connected', function () {
         // store.client; // The underlying MongoClient object from the MongoDB driver
         logger.info(`got connection to session store ${process.env.DATABASE_NAME}`)
         resolve(store)
       })
 
-      store.on('error', function(err) {
+      store.on('error', function (err) {
         logger.error(`${err} : retrying for session store ${process.env.DATABASE_NAME}`)
         setTimeout(init, 2000)
       })
     })()
   })
 }
+

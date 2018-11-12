@@ -10,7 +10,7 @@ module.exports = function (url, name) {
     connectTimeoutMS: 10000, // Give up initial connection after 10 seconds
     socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
     family: 4, // Use IPv4, skip trying IPv6
-    useNewUrlParser: true
+    useNewUrlParser: true,
   }
 
   return new Promise(function (resolve, reject) {
@@ -29,7 +29,7 @@ module.exports = function (url, name) {
       })
 
       // If the Node process ends, close the Mongoose connection
-      process.on('SIGINT', function() {
+      process.on('SIGINT', function () {
         conn.close(function () {
           logger.info(`db ${name} disconnected through app termination`)
           process.exit(0)
@@ -38,3 +38,4 @@ module.exports = function (url, name) {
     })()
   })
 }
+

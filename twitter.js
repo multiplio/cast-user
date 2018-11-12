@@ -5,64 +5,64 @@ const passport = require('passport')
 const TwitterStrategy = require('passport-twitter').Strategy
 
 // setup auth handling
-module.exports = function(app, User) {
+module.exports = function (app, User) {
   // Configure Passport authenticated session persistence.
   passport.serializeUser(
-    function(user, cb) {
+    function (user, cb) {
       logger.debug(`serializing: ${user.displayName}`)
       cb(null, user._id)
     })
 
   passport.deserializeUser(
-    function(id, cb) {
+    function (id, cb) {
       logger.debug(`deserializing: ${id}`)
       User.findById(id, cb)
     })
 
-  passport.use(
-    new TwitterStrategy({
+  passport.use(new TwitterStrategy(
+    {
       consumerKey: process.env.TWITTER_CONSUMER_KEY,
       consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-      userProfileURL: "https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true",
+      userProfileURL: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true',
       callbackURL: process.env.TWITTER_CALLBACK_URL,
     },
-      function(token, tokenSecret, profile, cb) {
-        logger.debug(`authenticating: ${profile.id}`)
+    function (token, tokenSecret, profile, cb) {
+      logger.debug(`authenticating: ${profile.id}`)
 
-        //get user email if exists
-        let email = null
-        if (profile.emails && profile.emails.length > 0) {
-          email = profile.emails[0].value
-        }
-
-        //create user and save to db
-        const user = {
-          displayName: profile.displayName,
-          primaryEmail: email,
-          profileImageUrl: profile._json.profile_image_url_https,
-          twitterId: profile.id,
-          twitterAccessLevel: profile._accessLevel
-        }
-        User.findOne({"twitterId" : profile.id}).exec(function (err, res) {
-          if(err) {
-            return cb(err, null)
-          }
-          else {
-            if(!res && email) {
-              //new user - send onboarding
-              emailer(email, profile.displayName)
-                .then(() => logger.debug('sent onboarding email'))
-                .catch(err => logger.error(`emailer error : ${err}`))
-            }
-
-            User.findOrCreate(user, function (err, user) {
-              logger.info('created or updated a user')
-              return cb(err, user)
-            })
-          }
-        })
+      // get user email if exists
+      let email = null
+      if (profile.emails && profile.emails.length > 0) {
+        email = profile.emails[0].value
       }
-    ))
+
+      // create user and save to db
+      const user = {
+        displayName: profile.displayName,
+        primaryEmail: email,
+        profileImageUrl: profile._json.profile_image_url_https,
+        twitterId: profile.id,
+        twitterAccessLevel: profile._accessLevel,
+      }
+      User.findOne({ 'twitterId': profile.id }).exec(function (err, res) {
+        if (err) {
+          return cb(err, null)
+        }
+        else {
+          if (!res && email) {
+            // new user - send onboarding
+            emailer(email, profile.displayName)
+              .then(() => logger.debug('sent onboarding email'))
+              .catch(err => logger.error(`emailer error : ${err}`))
+          }
+
+          User.findOrCreate(user, function (err, user) {
+            logger.info('created or updated a user')
+            return cb(err, user)
+          })
+        }
+      })
+    }
+  ))
   logger.info('inited twitter passport')
 
   // initialize passport and restore authentication state, if any, from the session.
@@ -78,11 +78,9 @@ module.exports = function(app, User) {
     '/auth/twitter/callback',
     passport.authenticate(
       'twitter',
-      {
-        failureRedirect: '/login'
-      }
+      { failureRedirect: '/login' }
     ),
-    function(req, res) {
+    function (req, res) {
       // Successful authentication, redirect home.
       logger.debug(`succesful authentication for: ${req.user.displayName}`)
       res.redirect('/')
@@ -92,10 +90,11 @@ module.exports = function(app, User) {
 
   app.get(
     '/logout',
-    function(req, res) {
+    function (req, res) {
       req.logout()
       res.redirect('/')
     })
 
   logger.info('setup logout route')
 }
+

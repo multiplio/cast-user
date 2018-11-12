@@ -11,9 +11,7 @@ const session = require('express-session')
 app.use(require('helmet')())
 
 app.use(require('body-parser').urlencoded(
-  {
-    extended: true
-  }
+  { extended: true }
 ))
 
 // setup session store
@@ -28,8 +26,8 @@ require('./sessstore')(session)
         saveUninitialized: true,
         cookie: {
           // secure: true,
-          maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
-        }
+          maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+        },
       }
     ))
 
@@ -37,10 +35,11 @@ require('./sessstore')(session)
     users()
       .then(User => {
         // setup twitter auth
-        require('./twitter')(app, User);
+        require('./twitter')(app, User)
 
         // start server
-        app.listen(process.env.PORT);
-        logger.info(`listening at localhost:${process.env.PORT}`);
+        app.listen(process.env.PORT)
+        logger.info(`listening at localhost:${process.env.PORT}`)
       })
   })
+

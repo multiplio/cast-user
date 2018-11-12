@@ -15,4 +15,4 @@ script:
   - make build
   - make run-noenv
   - docker ps -a
-  - make kill
+  # - make kill

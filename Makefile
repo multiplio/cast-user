@@ -5,12 +5,14 @@ version=1.0.0
 .PHONY:build
 build:
 	docker image build \
-		-t ${repo}/${name}:${version} .
+		-t ${repo}/${name}:${version} \
+		.
 
 .PHONY:run
 run:
 	docker container run \
 		--rm \
+		-d \
 		--name ${repo}-${name}-dev \
 		--env-file .env \
 		-p 7000:7000 \

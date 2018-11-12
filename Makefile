@@ -18,6 +18,15 @@ run:
 		-p 7000:7000 \
 		-t ${repo}/${name}:${version}
 
+.PHONY:run-noenv
+run-noenv:
+	docker container run \
+		--rm \
+		-d \
+		--name ${repo}-${name}-dev \
+		-p 7000:7000 \
+		-t ${repo}/${name}:${version}
+
 .PHONY:kill
 kill:
 	docker rm $$( \

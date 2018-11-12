@@ -13,6 +13,6 @@ before_script:
 script:
   - yarn lint
   - make build
-  - make run
+  - make run-noenv
   - docker ps -a
   - make kill

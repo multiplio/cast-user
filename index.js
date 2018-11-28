@@ -1,7 +1,5 @@
 const logger = require('./logger')
 
-logger.info('starting up')
-
 // app requires
 const users = require('./user')
 

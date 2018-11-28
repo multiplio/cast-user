@@ -27,5 +27,6 @@ if (process.env.LOG_FILE === 'true') {
   )
 }
 
+logger.info('starting up')
 module.exports = logger
 

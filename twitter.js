@@ -92,7 +92,7 @@ module.exports = function (app, User) {
     '/logout',
     function (req, res) {
       req.logout()
-      res.redirect('/')
+      res.redirect('/login')
     })
 
   logger.info('setup logout route')

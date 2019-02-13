@@ -16,8 +16,13 @@ module.exports = () => new Promise(function (resolve, reject) {
 
     joinedDate: { type: Date, default: Date.now },
 
-    twitterId: String,
-    twitterAccessLevel: String,
+    twitter: {
+      id: String,
+      accessLevel: String,
+
+      token: String,
+      secret: String,
+    }
   })
 
   userSchema.statics.findOrCreate = function (user, cb) {

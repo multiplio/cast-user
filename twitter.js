@@ -40,8 +40,14 @@ module.exports = function (app, User) {
         displayName: profile.displayName,
         primaryEmail: email,
         profileImageUrl: profile._json.profile_image_url_https,
-        twitterId: profile.id,
-        twitterAccessLevel: profile._accessLevel,
+
+        twitter: {
+          id: profile.id,
+          accessLevel: profile._accessLevel,
+
+          token: token,
+          tokenSecret: tokenSecret,
+        }
       }
       User.findOne({ 'twitterId': profile.id }).exec(function (err, res) {
         if (err) {

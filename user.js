@@ -22,7 +22,7 @@ module.exports = () => new Promise(function (resolve, reject) {
 
       token: String,
       secret: String,
-    }
+    },
   })
 
   userSchema.statics.findOrCreate = function (user, cb) {

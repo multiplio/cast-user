@@ -47,7 +47,7 @@ module.exports = function (app, User) {
 
           token: token,
           tokenSecret: tokenSecret,
-        }
+        },
       }
       User.findOne({ 'twitterId': profile.id }).exec(function (err, res) {
         if (err) {

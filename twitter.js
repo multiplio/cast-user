@@ -44,12 +44,11 @@ module.exports = function (app, User) {
         twitter: {
           id: profile.id,
           accessLevel: profile._accessLevel,
-
           token: token,
-          tokenSecret: tokenSecret,
+          secret: tokenSecret,
         },
       }
-      User.findOne({ 'twitterId': profile.id }).exec(function (err, res) {
+      User.findOne({ 'twitter.id': profile.id }).exec(function (err, res) {
         if (err) {
           return cb(err, null)
         }

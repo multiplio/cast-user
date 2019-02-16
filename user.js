@@ -19,7 +19,6 @@ module.exports = () => new Promise(function (resolve, reject) {
     twitter: {
       id: String,
       accessLevel: String,
-
       token: String,
       secret: String,
     },
@@ -27,7 +26,7 @@ module.exports = () => new Promise(function (resolve, reject) {
 
   userSchema.statics.findOrCreate = function (user, cb) {
     return this.model('User').findOneAndUpdate(
-      { twitterId: user.twitterId },
+      { 'twitter.id': user.twitter.id },
       user,
       {
         new: true,

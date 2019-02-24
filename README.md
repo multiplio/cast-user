@@ -1,6 +1,8 @@
 # Twitter login server
 
-[![Build Status](https://travis-ci.org/tekwrks/login.svg?branch=master)](https://travis-ci.org/tekwrks/login) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftekwrks%2Flogin.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftekwrks%2Flogin?ref=badge_shield)
+[![Build Status](https://travis-ci.org/tekwrks/login.svg?branch=master)](https://travis-ci.org/tekwrks/login)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftekwrks%2Flogin.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftekwrks%2Flogin?ref=badge_shield)
+[![codecov](https://codecov.io/gh/tekwrks/login/branch/master/graph/badge.svg)](https://codecov.io/gh/tekwrks/login)
 
 ## Uses
 - twitter passport

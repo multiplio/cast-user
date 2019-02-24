@@ -5,3 +5,6 @@ node_modules
 combined.log
 error.log
 yarn-error.log
+
+coverage/
+test.log

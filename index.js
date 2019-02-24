@@ -1,7 +1,8 @@
 const logger = require('./logger')
 
 // app requires
-const users = require('./user')
+const database = require('./db.js')
+const users = require('./user')(database)
 
 const app = require('express')()
 const session = require('express-session')
@@ -30,7 +31,7 @@ require('./sessstore')(session)
     ))
 
     // setup users database
-    users()
+    users
       .then(User => {
         // setup twitter auth
         require('./twitter')(app, User)

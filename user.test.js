@@ -54,3 +54,25 @@ describe('sets up correctly', () => {
   })
 })
 
+describe('adds uri options correctly', () => {
+  jest.resetModules()
+
+  jest.mock('mongoose', () => {
+    return {
+      Schema: function (o) { return { statics: jest.fn(), } },
+      model: function (n, s) { return n },
+    }
+  })
+
+  process.env.DATABASE_OPTIONS = 'options'
+
+  const m = require('./user')
+
+  test('creates a correct uri with options', done => {
+    m((u, n) => new Promise((resolve, reject) => {
+      expect(u).toBe(uri + '?' + process.env.DATABASE_OPTIONS)
+      done()
+    }))
+  })
+})
+

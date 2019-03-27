@@ -2,7 +2,7 @@
   "name": "login",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "tekwrks <tekwrks@tekwrks.com>",
+  "author": "multipl <multipl@multipl.io>",
   "license": "MIT",
   "scripts": {
     "start": "node index.js",

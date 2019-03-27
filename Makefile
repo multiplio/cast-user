@@ -1,5 +1,5 @@
-project=tekwrks
-name=login
+project=multipl
+name=cast-user
 
 .PHONY:build
 build:

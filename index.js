@@ -36,6 +36,17 @@ require('./sessstore')(session)
         // setup twitter auth
         require('./twitter')(app, User)
 
+        // setup other routes
+        app.get('/identity', function (req, res) {
+          const user = req.user
+          res.send(
+            {
+              displayName: user.displayName,
+              profileImageUrl: user.profileImageUrl,
+            }
+          )
+        })
+
         // readiness probe
         app.get('/ready', function (req, res) {
           res

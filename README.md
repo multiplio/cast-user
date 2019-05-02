@@ -18,6 +18,8 @@ get user details
     profileImageUrl: String,
 }
 ```
+or
+```401 'Not Authenticated'``` if no session
 - GET ```/ready``` <br>
 readiness probe, ```200 ok```
 

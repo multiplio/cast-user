@@ -33,18 +33,27 @@ require('./sessstore')(session)
     // setup users database
     users
       .then(User => {
-        // setup twitter auth
+        // setup twitter authentication
         require('./twitter')(app, User)
 
         // setup other routes
         app.get('/identity', function (req, res) {
           const user = req.user
-          res.send(
-            {
-              displayName: user.displayName,
-              profileImageUrl: user.profileImageUrl,
-            }
-          )
+          if (user !== null) {
+            res
+              .status(200)
+              .send(
+                {
+                  displayName: user.displayName || null,
+                  profileImageUrl: user.profileImageUrl || null,
+                }
+              )
+          }
+          else {
+            res
+              .status(401)
+              .send('Not Authenticated')
+          }
         })
 
         // readiness probe

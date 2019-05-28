@@ -1,5 +1,7 @@
 # User login/get/logout
 
+login & session service
+
 [![Build Status](https://travis-ci.org/multiplio/cast-user.svg?branch=master)](https://travis-ci.org/multiplio/cast-user)
 
 ## Routes
@@ -10,6 +12,7 @@
 | GET | /logout | -> ```/login``` | - | delete user session |
 | GET | /auth/twitter | -> twitter login | - | init twitter login |
 | GET | /auth/twitter/callback | -> ```/```| -> ```/login``` | twitter oauth callback |
+| GET | /identity | 200 ```{displayName, profileImageUrl}``` | 401 'Not Authenticated' | - |
 
 ## Env
 ```
@@ -35,4 +38,3 @@ DATABASE_OPTIONS=
 DATABASE_USER=
 DATABASE_PASSWORD=
 ```
-

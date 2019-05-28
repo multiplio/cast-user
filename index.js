@@ -33,8 +33,28 @@ require('./sessstore')(session)
     // setup users database
     users
       .then(User => {
-        // setup twitter auth
+        // setup twitter authentication
         require('./twitter')(app, User)
+
+        // get user identity route
+        app.get('/identity', function (req, res) {
+          const user = req.user
+          if (user) {
+            res
+              .status(200)
+              .send(
+                {
+                  displayName: (user && user.displayName) || null,
+                  profileImageUrl: (user && user.profileImageUrl) || null,
+                }
+              )
+          }
+          else {
+            res
+              .status(401)
+              .send('Not Authenticated')
+          }
+        })
 
         // readiness probe
         app.get('/ready', function (req, res) {
@@ -42,6 +62,7 @@ require('./sessstore')(session)
             .status(200)
             .send('ok')
         })
+
         // start server
         app.listen(process.env.PORT)
         logger.info(`listening at localhost:${process.env.PORT}`)

@@ -36,16 +36,16 @@ require('./sessstore')(session)
         // setup twitter authentication
         require('./twitter')(app, User)
 
-        // setup other routes
+        // get user identity route
         app.get('/identity', function (req, res) {
           const user = req.user
-          if (user !== null) {
+          if (user) {
             res
               .status(200)
               .send(
                 {
-                  displayName: user.displayName || null,
-                  profileImageUrl: user.profileImageUrl || null,
+                  displayName:     (user && user.displayName)     || null,
+                  profileImageUrl: (user && user.profileImageUrl) || null,
                 }
               )
           }
@@ -62,6 +62,7 @@ require('./sessstore')(session)
             .status(200)
             .send('ok')
         })
+
         // start server
         app.listen(process.env.PORT)
         logger.info(`listening at localhost:${process.env.PORT}`)

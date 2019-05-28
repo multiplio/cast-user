@@ -44,7 +44,7 @@ require('./sessstore')(session)
               .status(200)
               .send(
                 {
-                  displayName:     (user && user.displayName)     || null,
+                  displayName: (user && user.displayName) || null,
                   profileImageUrl: (user && user.profileImageUrl) || null,
                 }
               )

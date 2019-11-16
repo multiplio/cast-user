@@ -10,9 +10,13 @@
     "lint": "eslint -c .eslintrc.js ./*.js"
   },
   "jest": {
-    "modulePaths" : ["./"],
+    "modulePaths": [
+      "./"
+    ],
     "coverageDirectory": "coverage",
-    "collectCoverageFrom" : ["*.js"],
+    "collectCoverageFrom": [
+      "*.js"
+    ],
     "collectCoverage": false,
     "testRegex": ".*test.js$"
   },
